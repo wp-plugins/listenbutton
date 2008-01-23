@@ -2,15 +2,15 @@
 /*
 Plugin Name: Odiogo Listen Button
 Plugin URI: http://www.odiogo.com/download/wordpress/plugin/odiogo_listen_button_latest.php
-Description: Give your blog a voice! Add an "Odiogo Listen Button" so your readers can listen to your posts. <a href="http://www.odiogo.com/sign_up.php">Free Sign up</a>.
+Description: Give your blog a voice! Add an "Odiogo Listen Now Button" so your readers can listen to your posts. <a href="http://www.odiogo.com/sign_up.php">Free Sign up</a>.
 Author: Odiogo
-Version: 1.6
+Version: 1.7
 Author URI: http://www.odiogo.com/
 */
 
 function odiogo_get_plugin_version ()
 {
-	return "1.6";
+	return "1.7";
 }
 
 function odiogo_is_wp_head_template_bug_fix_enabled ()
@@ -109,7 +109,7 @@ function odiogo_listen_now_js ()
 	$str =
 	'
 	<!-- BEGIN listen button odiogo.com v' . odiogo_get_plugin_version () . ' (WP) #1 -->
-	<script type="text/javascript" language="javascript" src="http://podcasts.odiogo.com/odiogo_js.php?feed_id=' . odiogo_get_option_odiogo_feed_id () . '&platform=wp"></script>
+	<script type="text/javascript" language="javascript" src="http://widget.odiogo.com/odiogo_js.php?feed_id=' . odiogo_get_option_odiogo_feed_id () . '&platform=wp"></script>
 	<!-- END listen button odiogo.com v' . odiogo_get_plugin_version () . ' (WP) #1 -->
 
 	';
