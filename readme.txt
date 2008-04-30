@@ -3,7 +3,7 @@ Contributors: patricek
 Donate link: http://www.odiogo.com/
 Tags: podcast, mp3, text-to-speech, rss, feeds, audio, accessibility
 Requires at least: 2.0.5
-Tested up to: 2.3.2
+Tested up to: 2.5.0
 Stable tag: trunk
 
 The 'Odiogo Listen Button' allows you to offer audio versions of your posts on-screen and to millions of iPod/MP3/mobile phone owners ... for free!
@@ -27,14 +27,13 @@ from advertising is redistributed to the blogger.
 
 == Installation ==
 
-1. Download the [plugin](http://www.odiogo.com/download/wordpress/plugin/odiogo_listen_button_latest.php)
-2. Unzip the ZIP file into a temporary directory
-3. Copy the directory `odiogo_listen_button` into your `/wp-content/plugins/` directory via local file copy, FTP, scp or similar
-4. Login to your WordPress admin account, click menu 'Plugins' and click 'Activate' for 'Odiogo Listen Button'
-5. Click menu 'Options' > 'Odiogo Listen Button'
-6. Enter your 'Odiogo Feed ID' and click 'Save'
-7. Click menu 'Presention' > 'Widgets' (or 'Sidebar Widgets' depending on your WP version)
-8. Drag and drop 'Odiogo Subscribe Button' from 'Available Widgets' to 'Sidebar'
+1. Download the [plugin](http://www.odiogo.com/download/wordpress/plugin/odiogo_listen_button_latest.php) and unzip it into a temporary directory
+2. Copy the directory `odiogo_listen_button` into your `/wp-content/plugins/` directory via local file copy, FTP, scp or similar
+3. Login to your WordPress admin account, click menu 'Plugins' and click 'Activate' for 'Odiogo Listen Button'
+4. Click menu 'Options' > 'Odiogo Listen Button'
+5. Enter your 'Odiogo Feed ID' and click 'Save'
+6. Click menu 'Presention' > 'Widgets' (or 'Sidebar Widgets' depending on your WP version)
+7. Drag and drop 'Odiogo Subscribe Button' from 'Available Widgets' to 'Sidebar'
 
 If your theme doesn't support widgets:
 1. Click menu 'Presentation' > 'Theme Editor'
@@ -43,11 +42,10 @@ If your theme doesn't support widgets:
 
 = Upgrade Instructions from version 1.x? =
 
-1. Download the [plugin](http://www.odiogo.com/download/wordpress/plugin/odiogo_listen_button_latest.php)
-2. Unzip the ZIP file into a temporary directory
-3. Overwrite the directory `odiogo_listen_button` into your `/wp-content/plugins/` directory via local file copy, FTP, scp or similar
-4. Login to your WordPress admin account, click menu 'Plugins' and make sure the 'Odiogo Listen Button' is Active
-5. Click menu 'Options' > 'Odiogo Listen Button' and click 'Save'
+1. Download the [plugin](http://www.odiogo.com/download/wordpress/plugin/odiogo_listen_button_latest.php) and unzip it into a temporary directory
+2. Overwrite the directory `odiogo_listen_button` into your `/wp-content/plugins/` directory via local file copy, FTP, scp or similar
+3. Login to your WordPress admin account, click menu 'Plugins' and make sure the 'Odiogo Listen Button' is Active
+4. Click menu 'Options' > 'Odiogo Listen Button' and click 'Save'
 
 == Frequently Asked Questions ==
 
@@ -85,3 +83,4 @@ You can view an [example](http://podcasts.odiogo.com/prompt-speech-applications-
 == Screenshots ==
 
 1. The Odiogo Listen Button
+2. The Odiogo Listen Button

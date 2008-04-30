@@ -4,14 +4,18 @@ Plugin Name: Odiogo Listen Button
 Plugin URI: http://www.odiogo.com/download/wordpress/plugin/odiogo_listen_button_latest.php
 Description: Give your blog a voice! Add a "Listen Now" button to your blog so your readers can listen to your posts and download podcasts. <a href="http://www.odiogo.com/sign_up.php">Free Sign up</a>.
 Author: Odiogo
-Version: 2.2.2
+Version: 2.5.2
 Author URI: http://www.odiogo.com/
 */
 
 /*
-Version 1.x by patricek (http://www.odiogo.com)
-Version 2.x by ozh (http://planetozh.com/blog)
+Version 1.7 by patricek (http://www.odiogo.com)
+Version 2.1 by ozh (http://planetozh.com/blog)
+Version 2.5 by patricek (http://www.odiogo.com)
 */
+
+define ("ODIOGO_VERSION", "2.5.2");
+define ("ODIOGO_WEDJE_ENABLED", FALSE); // Use "Widget Enabled DOM Javascript Embedding" (http://www.mikeindustries.com/blog/archive/2007/06/widget-deployment-with-wedje)
 
 /*********** DO NOT EDIT UNLESS YOU REALLY NOW WHAT YOU ARE DOING ***********/
 // Advanced Hacker Mode. NO SUPPORT PROVIDED FOR THESE OPTIONS.
@@ -23,12 +27,6 @@ $odiogo_adv_options['manually_insert_listennow_link'] = false;
 	// Don't automatically insert the "Listen Now" button in post. Set to true if you want to manually add
 	// the template tag odiogo_listennow() in your theme files (must be in The Loop)
 /***************************************************************************/
-
-// Return plugin version
-function odiogo_get_plugin_version () {
-	return "2.2.2";
-}
-
 
 // Add an admin page for the plugin
 function odiogo_admin_menu () {
@@ -129,7 +127,7 @@ function odiogo_plugin_options () {
 	';
 
 	echo '
-	<p style="text-align:center">Plugin version '.odiogo_get_plugin_version ().'</code> &mdash; <a href="http://www.odiogo.com/">Odiogo Website</a> &mdash; <a href="http://blog.odiogo.com/">Odiogo Blog</a></p>
+	<p style="text-align:center">Plugin version ' . ODIOGO_VERSION . ' &mdash; <a href="http://www.odiogo.com/">Odiogo Website</a> &mdash; <a href="http://blog.odiogo.com/">Odiogo Blog</a></p>
 	';
 
 	echo '
@@ -259,13 +257,14 @@ function odiogo_init_l10n() {
 
 $global_odiogo_include_once = 0;
 
-// Add the button placeholder <div> in a post
 function odiogo_add_placeholders ($content, $filter = true) {
 	global $id;
 	global $global_odiogo_include_once;
 
+	$odiogo_feed_id = odiogo_get_option ('odiogo_feed_id');
+
 	// Do nothing on feeds, on Pages (as in "Pages != Posts") and if no Odiogo Feed ID has been set
-	if (is_feed () || odiogo_is_wp_page_static ($id) || strlen (odiogo_get_option ('odiogo_feed_id')) == 0)
+	if (is_feed () || odiogo_is_wp_page_static ($id) || empty ($odiogo_feed_id))
 		return $content;
 
 	$str_post_title = get_the_title ($id);
@@ -274,10 +273,25 @@ function odiogo_add_placeholders ($content, $filter = true) {
 
 	$odiogo_div = '';
 	$odiogo_div .= odiogo_get_option('odiogo_safe_include') && $global_odiogo_include_once == 0 ? odiogo_listen_now_js_code () : '';
-	$odiogo_div .=
-	'
-	<div class="odiogo_placeholder" title="'.$str_post_title.'" id="odiogo_placeholder_'.$id.'"></div>
-	';
+
+	if (ODIOGO_WEDJE_ENABLED)
+	{
+		$odiogo_div .=
+		'
+		<div class="odiogo_placeholder" title="'.$str_post_title.'" id="odiogo_placeholder_'.$id.'"></div>
+		';
+	}
+	else
+	{
+		$odiogo_div .=
+		'
+		<!-- BEGIN ODIOGO LISTEN BUTTON v' . ODIOGO_VERSION . ' (WP) -->
+		<script type="text/javascript" language="javascript">showOdiogoReadNowButton ("'. $odiogo_feed_id .'", "' . $str_post_title . '", "' . $id . '", 290, 55);</script>
+		<br/>
+		<script type="text/javascript" language="javascript">showInitialOdiogoReadNowFrame ("'. $odiogo_feed_id .'", "' . $id . '", 290, 0);</script>
+		<!-- END ODIOGO LISTEN BUTTON v' . ODIOGO_VERSION . ' (WP) -->
+		';
+	}
 
 	$global_odiogo_include_once++;
 
@@ -293,13 +307,24 @@ function odiogo_listennow() {
 	echo odiogo_add_placeholders('', false);
 }
 
-
 // Display "Subscribe to this podcast" div placeholder (via widget or standalone template tag)
 function odiogo_subscribe_button ($args = array() ) {
 	$do_widget = ($args) ? true : false;
 
 	$odiogo_subscribe = "";
-	$odiogo_div = '<div class="odiogo_subscribe_placeholder" id="odiogo_subscribe_placeholder">'.$odiogo_subscribe.'</div>';
+	if (ODIOGO_WEDJE_ENABLED)
+	{
+		$odiogo_div = '<div class="odiogo_subscribe_placeholder" id="odiogo_subscribe_placeholder">'.$odiogo_subscribe.'</div>';
+	}
+	else
+	{
+		$odiogo_div =
+		'
+		<!-- BEGIN ODIOGO LISTEN BUTTON v' . ODIOGO_VERSION . ' (WP) -->
+		<script type="text/javascript" language="javascript">showOdiogoSubscribeButton (_odiogo_directory_name);</script>
+		<!-- END ODIOGO LISTEN BUTTON v' . ODIOGO_VERSION . ' (WP) -->
+		';
+	}
 
 	// Output the placeholder div
 	if ($do_widget) {
@@ -311,7 +336,6 @@ function odiogo_subscribe_button ($args = array() ) {
 		echo $args['after_widget'];
 }
 
-
 // Add main javascript file
 function odiogo_listen_now_js_code ()
 {
@@ -320,11 +344,12 @@ function odiogo_listen_now_js_code ()
 	$odiogo_feed_id = odiogo_get_option ('odiogo_feed_id');
 	if (! empty ($odiogo_feed_id))
 	{
-		echo '
-		<!-- BEGIN ODIOGO LISTEN BUTTON v' . odiogo_get_plugin_version () . ' (WP) -->
-		<script type="text/javascript" language="javascript" src="http://widget.odiogo.com/odiogo_js.php?feed_id=' . $odiogo_feed_id . '&platform=wp"></script>
-		<script type="text/javascript" language="javascript" src="http://widget.odiogo.com/odiogo.js"></script>
-		<!-- END ODIOGO LISTEN BUTTON v' . odiogo_get_plugin_version () . ' (WP) -->
+		echo
+		'
+		<!-- BEGIN ODIOGO LISTEN BUTTON v' . ODIOGO_VERSION . ' (WP) -->
+		<script type="text/javascript" language="javascript" src="http://widget.odiogo.com/odiogo_js.php?feed_id=' . $odiogo_feed_id . '&platform=wp&version=' . ODIOGO_VERSION . '"></script>
+		' . (ODIOGO_WEDJE_ENABLED ? '<script type="text/javascript" language="javascript" src="http://widget.odiogo.com/odiogo.js"></script>' : '') . '
+		<!-- END ODIOGO LISTEN BUTTON v' . ODIOGO_VERSION . ' (WP) -->
 		';
 	}
 	return $result;
@@ -361,7 +386,15 @@ if ($odiogo_adv_options['manually_insert_listennow_link'] !== true)
 	add_filter ('the_content', 'odiogo_add_placeholders');
 }
 
-add_action ('wp_footer', 'odiogo_listen_now_js');
+if (ODIOGO_WEDJE_ENABLED)
+{
+	add_action ('wp_footer', 'odiogo_listen_now_js');
+}
+else
+{
+	add_action ('wp_head', 'odiogo_listen_now_js');
+}
+
 
 if (
 isset($odiogo_adv_options['custom_listennow_text']) and !empty($odiogo_adv_options['custom_listennow_text'])
