@@ -3,7 +3,7 @@ Contributors: patricek
 Donate link: http://www.odiogo.com/
 Tags: podcast, mp3, text-to-speech, rss, feeds, audio, accessibility
 Requires at least: 2.0.5
-Tested up to: 2.5.0
+Tested up to: 2.6.0
 Stable tag: trunk
 
 The 'Odiogo Listen Button' allows you to offer audio versions of your posts on-screen and to millions of iPod/MP3/mobile phone owners ... for free!
