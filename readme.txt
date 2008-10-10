@@ -30,10 +30,11 @@ from advertising is redistributed to the blogger.
 1. Download the [plugin](http://www.odiogo.com/download/wordpress/plugin/odiogo_listen_button_latest.php) and unzip it into a temporary directory
 2. Copy the directory `odiogo_listen_button` into your `/wp-content/plugins/` directory via local file copy, FTP, scp or similar
 3. Login to your WordPress admin account, click menu 'Plugins' and click 'Activate' for 'Odiogo Listen Button'
-4. Click menu 'Options' > 'Odiogo Listen Button'
+4. Click menu 'Settings' > 'Odiogo Listen Button'
 5. Enter your 'Odiogo Feed ID' and click 'Save'
-6. Click menu 'Presention' > 'Widgets' (or 'Sidebar Widgets' depending on your WP version)
+6. Click menu 'Design' > 'Widgets' (or 'Sidebar Widgets' depending on your WP version)
 7. Drag and drop 'Odiogo Subscribe Button' from 'Available Widgets' to 'Sidebar'
+8. Click 'Save Changes'
 
 If your theme doesn't support widgets:
 1. Click menu 'Presentation' > 'Theme Editor'
@@ -45,7 +46,7 @@ If your theme doesn't support widgets:
 1. Download the [plugin](http://www.odiogo.com/download/wordpress/plugin/odiogo_listen_button_latest.php) and unzip it into a temporary directory
 2. Overwrite the directory `odiogo_listen_button` into your `/wp-content/plugins/` directory via local file copy, FTP, scp or similar
 3. Login to your WordPress admin account, click menu 'Plugins' and make sure the 'Odiogo Listen Button' is Active
-4. Click menu 'Options' > 'Odiogo Listen Button' and click 'Save'
+4. Click menu 'Settings' > 'Odiogo Listen Button' and click 'Save'
 
 == Frequently Asked Questions ==
 

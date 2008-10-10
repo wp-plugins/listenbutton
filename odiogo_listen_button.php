@@ -4,7 +4,7 @@ Plugin Name: Odiogo Listen Button
 Plugin URI: http://www.odiogo.com/download/wordpress/plugin/odiogo_listen_button_latest.php
 Description: Give your blog a voice! Add a "Listen Now" button to your blog so your readers can listen to your posts and download podcasts. <a href="http://www.odiogo.com/sign_up.php">Free Sign up</a>.
 Author: Odiogo
-Version: 2.5.4
+Version: 2.5.6
 Author URI: http://www.odiogo.com/
 */
 
@@ -14,7 +14,7 @@ Version 2.1 by ozh (http://planetozh.com/blog)
 Version 2.5 by patricek (http://www.odiogo.com)
 */
 
-define ("ODIOGO_VERSION", "2.5.4");
+define ("ODIOGO_VERSION", "2.5.6");
 define ("ODIOGO_WEDJE_ENABLED", FALSE); // Use "Widget Enabled DOM Javascript Embedding" (http://www.mikeindustries.com/blog/archive/2007/06/widget-deployment-with-wedje)
 define ("ODIOGO_START_COMMENT", "// ODIOGO_START:do_NOT_remove_this_comment");
 define ("ODIOGO_END_COMMENT", "// ODIOGO_END:do_NOT_remove_this_comment");
@@ -375,17 +375,14 @@ function odiogo_subscribe_button ($args = array() ) {
 function odiogo_listen_now_js_code ()
 {
 	$result = "";
-	// no javascript to add if there is no feed ID
 	$odiogo_feed_id = odiogo_get_option ('odiogo_feed_id');
-	if (! empty ($odiogo_feed_id))
+	if (! empty ($odiogo_feed_id) && function_exists ("is_admin") && ! is_admin())
 	{
 		echo
-		'
-		<!-- BEGIN ODIOGO LISTEN BUTTON v' . ODIOGO_VERSION . ' (WP) -->
+		'<!-- BEGIN ODIOGO LISTEN BUTTON v' . ODIOGO_VERSION . ' (WP) -->
 		<script type="text/javascript" language="javascript" src="http://widget.odiogo.com/odiogo_js.php?feed_id=' . $odiogo_feed_id . '&amp;platform=wp&amp;version=' . ODIOGO_VERSION . '"></script>
 		' . (ODIOGO_WEDJE_ENABLED ? '<script type="text/javascript" language="javascript" src="http://widget.odiogo.com/odiogo.js"></script>' : '') . '
-		<!-- END ODIOGO LISTEN BUTTON v' . ODIOGO_VERSION . ' (WP) -->
-		';
+		<!-- END ODIOGO LISTEN BUTTON v' . ODIOGO_VERSION . ' (WP) -->';
 	}
 	return $result;
 }
@@ -426,7 +423,7 @@ if (ODIOGO_WEDJE_ENABLED)
 {
 	add_action ('wp_footer', 'odiogo_listen_now_js');
 }
-else
+else if (function_exists ("is_admin") && ! is_admin())
 {
 	add_action ('wp_head', 'odiogo_listen_now_js');
 }
